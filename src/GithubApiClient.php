@@ -6,7 +6,14 @@ class GithubApiClient
 
     public function getUserActivity(string $username) : string{
         $url = $this->baseUrl . '/users/' . $username . '/events';
-        $response = file_get_contents($url);
+        $options = [
+            'http' => [
+                'method' => 'GET',
+                'header' => 'User-Agent: MyGithubApiClient/1.0'
+            ]
+        ];
+        $context = stream_context_create($options);
+        $response = file_get_contents($url, false, $context);
         return $response;
     }
 }
