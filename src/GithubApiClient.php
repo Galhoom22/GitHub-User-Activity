@@ -14,6 +14,9 @@ class GithubApiClient
         ];
         $context = stream_context_create($options);
         $response = file_get_contents($url, false, $context);
+        if ($response === false) {
+            throw new Exception("Failed to fetch data from GitHub API");
+        }
         return $response;
     }
 }

@@ -1,11 +1,9 @@
 <?php
+require_once 'autoload.php';
 
 if (!isset($argv[1])) {
     echo "Usage: php App.php <github-username>\n";
 } else {
-    require_once 'src/GithubApiClient.php';
-    require_once 'src/ActivityFormatter.php';
-    require_once 'src/CacheManager.php';
 
     $api = new GithubApiClient();
     $formatter = new ActivityFormatter();
@@ -13,6 +11,10 @@ if (!isset($argv[1])) {
 
     $username = $argv[1];
     if(isset($argv[2])){
+        if (strpos($argv[2], '=') === false) {
+            echo "Error: Filter format should be --filter=EventType\n";
+            exit(1);
+        }
         $filter = explode('=', $argv[2]);
         $filterType = $filter[1];
     }
